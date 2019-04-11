@@ -164,8 +164,8 @@ class BlockList(ListView):
 
         if Block.objects.exists():
             context["highest_block"] = Block.objects.order_by("height").last()
-            context["latest_block"] = Block.objects.order_by("timestamp").last()
-            context["total_emission"] = Block.objects.order_by("total_difficulty").last().height * 60
+            #context["latest_block"] = Block.objects.order_by("timestamp").last()
+            #context["total_emission"] = Block.objects.order_by("total_difficulty").last().height * 60
 
             context["competing_chains"] = Block.objects \
                                                .filter(height__gte=context["highest_block"].height - 60) \
@@ -179,7 +179,7 @@ class BlockList(ListView):
                                         .filter(cnt__gt=1) \
                                         .aggregate(Min("height"))["height__min"]
 
-            context['thumb_chart_list'] = [self.get_block_chart(), self.get_fee_chart()]
+            #context['thumb_chart_list'] = [self.get_block_chart(), self.get_fee_chart()]
 
         return context
 

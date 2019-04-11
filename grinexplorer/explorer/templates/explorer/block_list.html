@@ -5,90 +5,9 @@
 {% load grin %}
 {% load shortnaturaltime %}
 
-{% block chart_loader_header %}
-  {% if block_list.exists %}
-	<!-- code to include the highcharts and jQuery libraries goes here -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
-	<script src="https://code.highcharts.com/highcharts.js"></script>
-	<!-- load_charts filter takes a comma-separated list of id's where -->
-	<!-- the charts need to be rendered to                             -->
-	{% load chartit %}
-	{{ thumb_chart_list|load_charts:"thumbnail_blockchart, thumbnail_feechart" }}
-  {% endif %}
-{% endblock %}
-
 {% block content %}
   {% if block_list.exists %}
 	<br>
-
-	<div class="row align-items-start">
-	  <div class="col col-sm-6">
-		<a href="/chart/block">
-		  <div class="tag-box tag-box-v2 box-shadow shadow-effect-1" style="border-right-color: #3498db; border-right-style: solid; border-right-width: 2px; margin-bottom: 0px; background-color: #FFFFFF;">
-			<div id="thumbnail_blockchart" style="min-width: 255px; height: 200px; margin: 0 auto">
-			</div>
-		  </div>
-		</a>
-	  </div>
-	  <div class="col col-sm-6">
-		<a href="/chart/fee">
-		  <div class="tag-box tag-box-v2 box-shadow shadow-effect-1" style="border-right-color: #3498db; border-right-style: solid; border-right-width: 2px; margin-bottom: 0px; background-color: #FFFFFF;">
-			<div id="thumbnail_feechart" style="min-width: 255px; height: 200px; margin: 0 auto">
-			</div>
-		  </div>
-		</a>
-	  </div>
-	</div>
-
-	<br>
-
-	<div class="row">
-	  <div class="col-sm-6 col-md-3">
-		<div class="card">
-		  <div class="card-header">
-			Chain Height
-		  </div>
-		  <div class="card-body">
-			<h4 class="card-title">{{ highest_block.height | intcomma }}</h4>
-		  </div>
-		</div>
-	  </div>
-
-	  <div class="col-sm-6 col-md-3">
-		<div class="card">
-		  <div class="card-header">
-			Latest Block
-		  </div>
-		  <div class="card-body">
-			<h4 class="card-title">{{ latest_block.timestamp | naturaltime }}</h4>
-		  </div>
-		</div>
-	  </div>
-
-	  <div class="col-sm-6 col-md-3">
-		<div class="card" title="Actual vs. Expected Block Difficulty">
-		  <div class="card-header">
-			Latest Block Difficulty
-		  </div>
-		  <div class="card-body">
-			<h4 class="card-title">
-			  {{ latest_block.difficulty | intcomma }} / {{ latest_block.target_difficulty | intcomma }}
-			</h4>
-		  </div>
-		</div>
-	  </div>
-
-	  <div class="col-sm-6 col-md-3">
-		<div class="card">
-		  <div class="card-header">
-			Emission
-		  </div>
-		  <div class="card-body">
-			<h4 class="card-title">{{ total_emission | grin }}</h4>
-		  </div>
-		</div>
-	  </div>
-	</div>
 
 	<br>
 
@@ -139,7 +58,7 @@
 			<th>Hash</th>
 			<th>Age</th>
 		  <th>Difficulty</th>
-		  <th>PoW Algo</th>
+		  <th>Reward</th>
 			<th># Kernels</th>
 			<th># Inputs</th>
 			<th># Outputs</th>
@@ -151,14 +70,8 @@
 			  <td><a href="/block/{{ blk.height }}" style="color:royalblue">{{ blk.height }}</a></td>
 			  <td><a href="/block/{{ blk.hash }}" style="color:royalblue"><font face=monospace>{{ blk.hash }}</font></a></td>
 			  <td>{{ blk.timestamp | shortnaturaltime }}</td>
-			<td class="numeric">{{ blk.target_difficulty | intcomma }}</td>
-			<td>
-			  {% if blk.edge_bits == 29 %}
-			  cuckARoo29
-			  {% elif blk.edge_bits == 31 %}
-			  cuckAToo31
-			  {% endif %}
-			  </td>
+			<td class="numeric">{{ blk.bit_difficulty | intcomma }}</td>
+			<td>{{ blk.reward }}</td>
 			  <td class="numeric" align="left">{{ blk.kernel_set.all.count }}</td>
 			  <td class="numeric" align="left">{{ blk.input_set.all.count }}</td>
 			  <td class="numeric" align="left">{{ blk.output_set.all.count }}</td>

@@ -50,7 +50,7 @@ class Command(BaseCommand):
                 self.stdout.write("== exiting early")
                 break
 
-            if prev_hash == "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff":
+            if prev_hash == "0000000000000000000000000000000000000000000000000000000000000000":
                 break
 
             # continue along the chain

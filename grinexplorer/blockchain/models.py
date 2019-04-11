@@ -62,40 +62,46 @@ class Block(models.Model):
 
     kernel_root = models.CharField(max_length=64)
 
+    bits = models.IntegerField()
+
     nonce = models.TextField()
 
     edge_bits = models.IntegerField()
 
     cuckoo_solution = ArrayField(models.IntegerField())
 
-    difficulty = models.IntegerField()
-
     # sum of the target difficulties, not the sum of the actual block difficulties
-    total_difficulty = models.BigIntegerField()
+    total_difficulty = models.IntegerField()
 
     secondary_scaling = models.IntegerField()
 
     total_kernel_offset = models.CharField(max_length=64)
 
     @property
-    def difficulty(self):
-        # Maximum difficulty this proof of work can achieve
-        # 2 proof of works, Cuckoo29 (for now) and Cuckoo30+, which are scaled
-        # differently (scaling not controlled for now)
-        if (self.edge_bits == SECOND_POW_EDGE_BITS):
-            return int(from_proof_scaled(self.hash, self.secondary_scaling))
-        else:
-            return int(from_proof_adjusted(self.hash, self.edge_bits))
+    def bit_difficulty(self):
+        n_shift = (self.bits >> 24) & 0xff
+        d_diff = (float)(0x0000ffff) / (float)(self.bits & 0x00ffffff)
+        while (n_shift < 29):
+            d_diff *= 256.0
+            n_shift = n_shift + 1
+
+        while (n_shift > 29):
+            d_diff /= 256.0
+            n_shift = n_shift - 1
+
+        return (int)(d_diff)
 
     @property
-    def target_difficulty(self):
-        if self.previous is None:
-            return None
-        return self.total_difficulty - self.previous.total_difficulty
+    def base_reward(self):
+        halving = (int)(self.height / 210000)
+        if (halving >= 64):
+            return 0
+        else:
+            return 50 >> halving
 
     @property
     def reward(self):
-        return 60
+        return self.base_reward + self.fees
 
     @property
     def fees(self):

@@ -18,7 +18,7 @@ def nanogrin(nanogrin):
         return grin(0)
 
     if nanogrin < 1000:
-        return "%d ng" % nanogrin
+        return "%d nvcash" % nanogrin
 
     return microgrin(Decimal(nanogrin) / Decimal(1000))
 
@@ -29,7 +29,7 @@ def microgrin(microgrin):
         return grin(0)
 
     if microgrin < 1000:
-        return "%s µg" % format_float(microgrin)
+        return "%s µvcash" % format_float(microgrin)
 
     return milligrin(Decimal(microgrin) / Decimal(1000))
 
@@ -40,11 +40,11 @@ def milligrin(milligrin):
         return grin(0)
 
     if milligrin < 1000:
-        return "%s mg" % format_float(milligrin)
+        return "%s mvcash" % format_float(milligrin)
 
     return grin(Decimal(milligrin) / Decimal(1000))
 
 
 @register.filter
 def grin(grin):
-    return "%s grin" % format_float(grin)
+    return "%s vcash" % format_float(grin)

@@ -101,7 +101,7 @@ class Block(models.Model):
 
     @property
     def reward(self):
-        return self.base_reward + self.fees
+        return self.base_reward + self.fees/1000000000
 
     @property
     def fees(self):

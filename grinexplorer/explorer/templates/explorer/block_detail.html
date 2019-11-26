@@ -127,4 +127,79 @@
 	</table>
   </details>
 
+	<br>
+
+  <details class="black">
+	<summary>TokenInputs ({{ blk.tokeninput_set.all.count }})</summary>
+
+	<table class="table table-horizontal-bordered table-hover">
+	  <thead class="thead-light">
+		<tr>
+		  <th>Token Type</th>
+		  <th>Commit</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		{% for tokeninput in blk.tokeninput_set.all %}
+		  <tr>
+			<td style="font-family:monospace;">{{ tokeninput.token_type }}</td>
+			<td style="font-family:monospace;">{{ tokeninput.commitment }}</td>
+		  </tr>
+		{% endfor %}
+	  </tbody>
+	</table>
+  </details>
+
+  <br>
+
+  <details class="black">
+	<summary>TokenOutputs ({{ blk.tokenoutput_set.all.count }})</summary>
+
+	<table class="table table-horizontal-bordered table-hover">
+	  <thead class="thead-light">
+		<tr>
+		  <th>Output Type</th>
+		  <th>Token Type</th>
+		  <th>Commit</th>
+		  <th>Spent</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		{% for tokenoutput in blk.tokenoutput_set.all %}
+		  <tr>
+			<td>{{ tokenoutput.output_type }}</td>
+			<td>{{ tokenoutput.token_type }}</td>
+			<td>{{ tokenoutput.commit }}</td>
+			<td>{{ tokenoutput.spent }}</td>
+		  </tr>
+		{% endfor %}
+	  </tbody>
+	</table>
+  </details>
+
+  <br>
+
+  <details class="black">
+	<summary>TokenKernels ({{ blk.tokenkernel_set.all.count }})</summary>
+
+	<table class="table table-horizontal-bordered table-hover">
+	  <thead class="thead-light">
+		<tr>
+		  <th>Features</th>
+		  <th>Token Type</th>
+		  <th>Lock Height</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		{% for tokenkernel in blk.tokenkernel_set.all %}
+		  <tr>
+			<td>{{ tokenkernel.features }}</td>
+			<td>{{ tokenkernel.token_type }}</td>
+			<td>{{ tokenkernel.lock_height }}</td>
+		  </tr>
+		{% endfor %}
+	  </tbody>
+	</table>
+  </details>
+
 {% endblock content %}

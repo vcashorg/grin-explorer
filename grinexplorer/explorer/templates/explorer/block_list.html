@@ -60,8 +60,7 @@
 		  <th>Difficulty</th>
 		  <th>Reward</th>
 			<th># Kernels</th>
-			<th># Inputs</th>
-			<th># Outputs</th>
+	        <th># TokenKernels</th>
 		  </tr>
 		</thead>
 		<tbody>
@@ -73,8 +72,7 @@
 			<td class="numeric">{{ blk.bit_difficulty | intcomma }}</td>
 			<td>{{ blk.reward }}</td>
 			  <td class="numeric" align="left">{{ blk.kernel_set.all.count }}</td>
-			  <td class="numeric" align="left">{{ blk.input_set.all.count }}</td>
-			  <td class="numeric" align="left">{{ blk.output_set.all.count }}</td>
+			  <td class="numeric" align="left">{{ blk.tokenkernel_set.all.count }}</td>
 			</tr>
 		  {% endfor %}
 		</tbody>

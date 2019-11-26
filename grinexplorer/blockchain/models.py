@@ -62,6 +62,14 @@ class Block(models.Model):
 
     kernel_root = models.CharField(max_length=64)
 
+    token_output_root = models.CharField(max_length=64, null=True)
+
+    token_range_proof_root = models.CharField(max_length=64, null=True)
+
+    token_issue_proof_root = models.CharField(max_length=64, null=True)
+
+    token_kernel_root = models.CharField(max_length=64, null=True)
+
     bits = models.IntegerField()
 
     nonce = models.TextField()
@@ -122,6 +130,8 @@ class Output(models.Model):
     OUTPUT_TYPE = (
         ("Transaction", "Transaction"),
         ("Coinbase", "Coinbase"),
+        ("TokenIsuue", "TokenIsuue"),
+        ("TokenTransaction", "TokenTransaction"),
     )
 
     block = models.ForeignKey(
@@ -133,6 +143,8 @@ class Output(models.Model):
     output_type = models.TextField(
         choices=OUTPUT_TYPE
     )
+
+    token_type = models.CharField(max_length=64, null=True)
 
     commit = models.CharField(max_length=66)
 
@@ -158,6 +170,70 @@ class Kernel(models.Model):
     features = models.TextField()
 
     fee = models.IntegerField()
+
+    lock_height = models.IntegerField()
+
+    excess = models.CharField(max_length=66)
+
+    excess_sig = models.CharField(max_length=142)
+
+
+class TokenInput(models.Model):
+    block = models.ForeignKey(
+        to=Block,
+        on_delete=models.PROTECT,
+        db_index=True,
+    )
+
+    token_type = models.CharField(max_length=64)
+
+    commitment = models.CharField(max_length=66)
+
+
+class TokenOutput(models.Model):
+    OUTPUT_TYPE = (
+        ("Transaction", "Transaction"),
+        ("Coinbase", "Coinbase"),
+        ("TokenIsuue", "TokenIsuue"),
+        ("TokenTransaction", "TokenTransaction"),
+    )
+
+    block = models.ForeignKey(
+        to=Block,
+        on_delete=models.PROTECT,
+        db_index=True,
+    )
+
+    output_type = models.TextField(
+        choices=OUTPUT_TYPE
+    )
+
+    token_type = models.CharField(max_length=64)
+
+    commit = models.CharField(max_length=66)
+
+    spent = models.BooleanField()
+
+    proof = models.TextField(null=True)
+
+    proof_hash = models.CharField(max_length=64)
+
+    block_height = models.IntegerField(null=True)
+
+    merkle_proof = models.TextField(null=True)
+
+    mmr_index = models.IntegerField(null=True)
+
+class TokenKernel(models.Model):
+    block = models.ForeignKey(
+        to=Block,
+        on_delete=models.PROTECT,
+        db_index=True,
+    )
+
+    features = models.TextField()
+
+    token_type = models.CharField(max_length=64)
 
     lock_height = models.IntegerField()
 

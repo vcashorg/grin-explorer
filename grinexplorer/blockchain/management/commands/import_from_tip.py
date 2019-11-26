@@ -5,7 +5,7 @@ import requests
 
 from django.core.management.base import BaseCommand
 
-from blockchain.models import Block, Input, Output, Kernel
+from blockchain.models import Block, Input, Output, Kernel, TokenInput, TokenKernel, TokenOutput
 
 
 class Status(Enum):
@@ -109,6 +109,24 @@ class Command(BaseCommand):
             Kernel.objects.create(
                 block=block,
                 **kernel_data,
+            )
+
+        for token_input_data in block_data["token_inputs"]:
+            TokenInput.objects.create(
+                block=block,
+                **token_input_data,
+            )
+
+        for token_output_data in block_data["token_outputs"]:
+            TokenOutput.objects.create(
+                block=block,
+                **token_output_data,
+            )
+
+        for token_kernel_data in block_data["token_kernels"]:
+            TokenKernel.objects.create(
+                block=block,
+                **token_kernel_data,
             )
 
         self.stdout.write("Stored block {} @ {}".format(block.hash, block.height))

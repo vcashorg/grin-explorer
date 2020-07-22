@@ -58,9 +58,13 @@ class Block(models.Model):
 
     output_root = models.CharField(max_length=64)
 
+    output_mmr_size = models.IntegerField()
+
     range_proof_root = models.CharField(max_length=64)
 
     kernel_root = models.CharField(max_length=64)
+
+    kernel_mmr_size = models.IntegerField()
 
     token_output_root = models.CharField(max_length=64, null=True)
 
@@ -71,6 +75,8 @@ class Block(models.Model):
     token_kernel_root = models.CharField(max_length=64, null=True)
 
     bits = models.IntegerField()
+
+    mask = models.CharField(max_length=64, null=True)
 
     nonce = models.TextField()
 
@@ -101,15 +107,21 @@ class Block(models.Model):
 
     @property
     def base_reward(self):
-        halving = (int)(self.height / 210000)
-        if (halving >= 64):
-            return 0
+        if (self.height < 80640):
+            return 50000000000
+        elif (self.height < 727440):
+            return 10000000000
         else:
-            return 50 >> halving
+            over_first_halving_height = self.height - 727440;
+            halving = (int)(self.height / 1050000)
+            if (halving >= 64):
+                return 0
+            else:
+                return 10000000000 >> halving
 
     @property
     def reward(self):
-        return self.base_reward + self.fees/1000000000
+        return (self.base_reward + self.fees)/1000000000
 
     @property
     def fees(self):

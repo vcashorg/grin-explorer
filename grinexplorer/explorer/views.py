@@ -203,7 +203,7 @@ class BlocksByHeight(TemplateView):
         return context
 
     def get(self, request, height):
-        self.blocks = Block.objects.filter(height=height).order_by("-total_difficulty")
+        self.blocks = Block.objects.filter(height=height).order_by("-height")
         self.height = height
 
         if len(self.blocks) == 1:

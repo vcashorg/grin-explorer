@@ -17,7 +17,6 @@
 	  <tr>
 		<th>Hash</th>
 		<th>Age</th>
-		<th>Cumulative Difficulty</th>
 		<th># kernel</th>
 		<th># in</th>
 		<th># out</th>
@@ -28,7 +27,6 @@
 		<tr>
 		  <td><a href="/block/{{ blk.hash }}">{{ blk.hash }}</a></td>
 		  <td>{{ blk.timestamp | naturaltime}}</td>
-		  <td>{{ blk.total_difficulty | intcomma }}</td>
 		  <td>{{ blk.kernel_set.all.count }}</td>
 		  <td>{{ blk.input_set.all.count }}</td>
 		  <td>{{ blk.output_set.all.count }}</td>

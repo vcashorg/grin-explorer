@@ -78,16 +78,20 @@ class Block(models.Model):
 
     mask = models.CharField(max_length=64, null=True)
 
-    nonce = models.TextField()
+    btc_header_hash = models.CharField(max_length=64, null=True)
 
-    edge_bits = models.IntegerField()
+    pow_hash = models.CharField(max_length=64, null=True)
 
-    cuckoo_solution = ArrayField(models.IntegerField())
+    nonce = models.TextField(null=True)
+
+    #edge_bits = models.IntegerField()
+
+    cuckoo_solution = ArrayField(models.IntegerField(), null=True)
 
     # sum of the target difficulties, not the sum of the actual block difficulties
-    total_difficulty = models.IntegerField()
+    #total_difficulty = models.IntegerField(null=True)
 
-    secondary_scaling = models.IntegerField()
+    #secondary_scaling = models.IntegerField(null=True)
 
     total_kernel_offset = models.CharField(max_length=64)
 
